@@ -72,3 +72,12 @@ def test_auto_number_and_templates_list():
     del p["invoice_number"]
     assert client.post("/invoices/json", json=p).status_code == 200
     assert {t["name"] for t in client.get("/templates").json()} == set(TEMPLATE_NAMES)
+
+
+def test_home_page():
+    r = client.get("/")
+    assert r.status_code == 200
+    assert "text/html" in r.headers["content-type"]
+    assert "invoice-generator-skill" in r.text
+    for t in TEMPLATE_NAMES:
+        assert t in r.text

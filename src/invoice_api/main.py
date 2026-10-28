@@ -4,11 +4,12 @@ import re
 from datetime import datetime
 from typing import Optional
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import Response
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi.responses import HTMLResponse, Response
 from pydantic import ValidationError
 
 from .calc import compute
+from .home import render_home
 from .logo import LogoError, load_logo
 from .models import InvoiceRequest
 from .templates import INFO, REGISTRY
@@ -36,6 +37,11 @@ def _build(inv: InvoiceRequest, logo_bytes: Optional[bytes]) -> Response:
         media_type="application/pdf",
         headers={"Content-Disposition": f'attachment; filename="invoice-{fname}.pdf"'},
     )
+
+
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
+def home(request: Request):
+    return render_home(str(request.base_url))
 
 
 @app.get("/health")
