@@ -1,0 +1,30 @@
+[project]
+name = "invoice-api"
+version = "0.1.0"
+description = "Generate PDF invoices via API"
+authors = [
+    { name = "Hasin Hayder", email = "countdraculla@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.162.0",
+    "python-multipart>=0.0.32",
+    "reportlab>=5.1.0",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+invoice-api = "invoice_api.main:run"
+
+[build-system]
+requires = ["uv_build>=0.9.16,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
