@@ -6,8 +6,8 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-TEMPLATE_NAMES = ("classic", "modern", "minimal", "bold", "elegant", "compact")
-TemplateName = Literal["classic", "modern", "minimal", "bold", "elegant", "compact"]
+TEMPLATE_NAMES = ("professional", "classic", "modern", "minimal", "bold", "elegant", "compact")
+TemplateName = Literal["professional", "classic", "modern", "minimal", "bold", "elegant", "compact"]
 
 
 class Party(BaseModel):
@@ -38,7 +38,7 @@ class Adjustment(BaseModel):
 
 
 class InvoiceRequest(BaseModel):
-    template: TemplateName = "classic"
+    template: TemplateName = "professional"
     invoice_number: Optional[str] = None
     currency: str = "$"
     biller: Party

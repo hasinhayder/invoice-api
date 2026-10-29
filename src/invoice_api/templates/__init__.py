@@ -1,6 +1,7 @@
-from . import bold, classic, compact, elegant, minimal, modern
+from . import bold, classic, compact, elegant, minimal, modern, professional
 
 _MODULES = {
+    "professional": professional,
     "classic": classic,
     "modern": modern,
     "minimal": minimal,
