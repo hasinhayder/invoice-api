@@ -10,7 +10,7 @@ from reportlab.pdfgen.canvas import Canvas
 
 from ..calc import Totals
 from ..models import InvoiceRequest
-from .base import H, M, W, Ctx, Style, adj_label, money, qty_fmt, safe, text, wrap
+from .base import H, M, W, Ctx, Style, adj_label, draw_logo, money, qty_fmt, safe, text, wrap
 from .layout import Y, rule, terms, tracked
 
 DESCRIPTION = "Black and white: a large title, a boxed details grid and a black total block."
@@ -77,9 +77,11 @@ def new_page(ctx: Ctx) -> float:
 
 def header(ctx: Ctx) -> None:
     inv = ctx.inv
-    tracked(ctx, M, 58, inv.biller.name.upper(), SANS_B, 13, INK, 0.6)
+    lh = draw_logo(ctx, M, Y(40), max_w=36, max_h=36)
+    x = M + 50 if lh else M
+    tracked(ctx, x, 58, inv.biller.name.upper(), SANS_B, 13, INK, 0.6)
     addr = ", ".join(ln.strip() for ln in inv.biller.address.splitlines() if ln.strip())
-    text(ctx, wrap(addr, SANS, 9, 220)[0], M, Y(72), font=SANS, size=9, color=GRAY)
+    text(ctx, wrap(addr, SANS, 9, 220)[0], x, Y(72), font=SANS, size=9, color=GRAY)
     tracked(ctx, R, 56, inv.invoice_number or "", SANS_B, 9, INK, 1, align="right")
     tracked(ctx, R, 70, f"{inv.currency} · {terms(inv)}".upper(), SANS, 9, INK, 1, align="right")
     rule(ctx, M, R, 83, INK, 1)

@@ -9,7 +9,7 @@ from reportlab.pdfgen.canvas import Canvas
 
 from ..calc import Totals
 from ..models import InvoiceRequest
-from .base import H, M, W, Ctx, Style, adj_label, money, qty_fmt, safe, text, wrap
+from .base import H, M, W, Ctx, Style, adj_label, draw_logo, money, qty_fmt, safe, text, wrap
 from .layout import Y, initials, rule, terms, tracked
 
 DESCRIPTION = "Navy masthead, a boxed ledger table with totals inside it, and a payment details box."
@@ -47,9 +47,10 @@ def masthead(ctx: Ctx) -> None:
     c, inv = ctx.c, ctx.inv
     c.setFillColor(NAVY)
     c.rect(0, Y(110), W, 110, stroke=0, fill=1)
-    c.setFillColor(white)
-    c.rect(M, Y(68), 31, 31, stroke=0, fill=1)
-    text(ctx, initials(inv.biller.name), M + 15.5, Y(56), font=SANS_B, size=11, color=NAVY, align="center")
+    if not draw_logo(ctx, M, Y(37), max_w=31, max_h=31):
+        c.setFillColor(white)
+        c.rect(M, Y(68), 31, 31, stroke=0, fill=1)
+        text(ctx, initials(inv.biller.name), M + 15.5, Y(56), font=SANS_B, size=11, color=NAVY, align="center")
     text(ctx, inv.biller.name, M + 41, Y(52), font=SANS_B, size=14, color=white)
     addr = ", ".join(ln.strip() for ln in inv.biller.address.splitlines() if ln.strip())
     text(ctx, wrap(addr, SANS, 8.5, 220)[0], M + 41, Y(66), font=SANS, size=8.5, color=LIGHT)

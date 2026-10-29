@@ -46,6 +46,15 @@ def test_templates(tpl, with_logo):
 
 
 @pytest.mark.parametrize("tpl", TEMPLATE_NAMES)
+def test_logo_is_drawn(tpl):
+    files = {"logo": ("l.png", png(), "image/png")}
+    with_logo = client.post("/invoices", data={"data": json.dumps(payload(template=tpl))}, files=files)
+    without = client.post("/invoices", data={"data": json.dumps(payload(template=tpl))})
+    assert b"/Subtype /Image" in with_logo.content
+    assert b"/Subtype /Image" not in without.content
+
+
+@pytest.mark.parametrize("tpl", TEMPLATE_NAMES)
 def test_multipage(tpl):
     r = client.post("/invoices/json", json=payload(60, template=tpl))
     assert r.status_code == 200

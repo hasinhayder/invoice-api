@@ -9,7 +9,7 @@ from reportlab.pdfgen.canvas import Canvas
 
 from ..calc import Totals
 from ..models import InvoiceRequest
-from .base import H, M, W, Ctx, Style, adj_label, money, qty_fmt, safe, text, wrap
+from .base import H, M, W, Ctx, Style, adj_label, draw_logo, money, qty_fmt, safe, text, wrap
 from .layout import Y, initials, rule, terms, tracked
 
 DESCRIPTION = "Dark page with a lime accent, numbered line items and a lime total block."
@@ -55,9 +55,10 @@ def new_page(ctx: Ctx) -> float:
 
 def header(ctx: Ctx) -> None:
     c, inv = ctx.c, ctx.inv
-    c.setFillColor(LIME)
-    c.roundRect(M, Y(76), 34, 34, 9, stroke=0, fill=1)
-    text(ctx, initials(inv.biller.name), M + 17, Y(63), font=SANS_B, size=12, color=INK, align="center")
+    if not draw_logo(ctx, M, Y(42), max_w=34, max_h=34):
+        c.setFillColor(LIME)
+        c.roundRect(M, Y(76), 34, 34, 9, stroke=0, fill=1)
+        text(ctx, initials(inv.biller.name), M + 17, Y(63), font=SANS_B, size=12, color=INK, align="center")
     text(ctx, inv.biller.name, M + 44, Y(56), font=SANS_B, size=14, color=WHITE)
     addr = ", ".join(ln.strip() for ln in inv.biller.address.splitlines() if ln.strip())
     text(ctx, wrap(addr, SANS, 8.5, 220)[0], M + 44, Y(70), font=SANS, size=8.5, color=GRAY)
