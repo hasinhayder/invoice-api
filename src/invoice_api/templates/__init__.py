@@ -1,9 +1,10 @@
-from . import bold, classic, compact, elegant, minimal, modern, noir, professional, sidebar, studio, swiss
+from . import bold, classic, compact, elegant, ledger, minimal, modern, noir, professional, sidebar, studio, swiss
 
 _MODULES = {
     "professional": professional,
     "studio": studio,
     "sidebar": sidebar,
+    "ledger": ledger,
     "noir": noir,
     "swiss": swiss,
     "classic": classic,

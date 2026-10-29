@@ -1,6 +1,6 @@
 # Invoice Builder API
 
-A small FastAPI service that renders PDF invoices in eleven templates, plus an agent skill (`skills/invoice-generator`) that lets an AI agent turn a user's plain-text invoice notes into a finished PDF.
+A small FastAPI service that renders PDF invoices in twelve templates, plus an agent skill (`skills/invoice-generator`) that lets an AI agent turn a user's plain-text invoice notes into a finished PDF.
 
 - Stateless: nothing is stored; the PDF is returned in the response.
 - No authentication — meant for local use. Bind to `127.0.0.1` (default) unless you add auth.
@@ -56,7 +56,7 @@ Totals are computed server-side: `subtotal − discount + tax` where tax applies
 
 ## Templates
 
-`professional` (default) · `studio` · `sidebar` · `noir` · `swiss` · `classic` · `modern` · `minimal` · `bold` · `elegant` · `compact` — samples in `docs/samples/` (regenerate with `uv run python scripts/make_samples.py`).
+`professional` (default) · `studio` · `sidebar` · `noir` · `swiss` · `ledger` · `classic` · `modern` · `minimal` · `bold` · `elegant` · `compact` — samples in `docs/samples/` (regenerate with `uv run python scripts/make_samples.py`).
 
 Limitation: standard PDF fonts are used, so only Latin-1 text renders correctly (₹/৳ currency symbols are converted to codes; other unsupported characters become `?`).
 

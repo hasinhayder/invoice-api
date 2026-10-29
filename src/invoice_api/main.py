@@ -17,7 +17,7 @@ from .templates import INFO, REGISTRY
 
 app = FastAPI(
     title="Invoice Builder API",
-    description="Generate PDF invoices in eleven templates. Stateless; nothing is stored.",
+    description="Generate PDF invoices in twelve templates. Stateless; nothing is stored.",
     version="0.1.0",
 )
 

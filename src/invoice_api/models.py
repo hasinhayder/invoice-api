@@ -6,8 +6,8 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-TEMPLATE_NAMES = ("professional", "studio", "sidebar", "noir", "swiss", "classic", "modern", "minimal", "bold", "elegant", "compact")
-TemplateName = Literal["professional", "studio", "sidebar", "noir", "swiss", "classic", "modern", "minimal", "bold", "elegant", "compact"]
+TEMPLATE_NAMES = ("professional", "studio", "sidebar", "noir", "swiss", "ledger", "classic", "modern", "minimal", "bold", "elegant", "compact")
+TemplateName = Literal["professional", "studio", "sidebar", "noir", "swiss", "ledger", "classic", "modern", "minimal", "bold", "elegant", "compact"]
 
 
 class Party(BaseModel):
