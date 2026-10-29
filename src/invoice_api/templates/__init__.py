@@ -1,7 +1,9 @@
-from . import bold, classic, compact, elegant, minimal, modern, professional
+from . import bold, classic, compact, elegant, minimal, modern, professional, sidebar, studio
 
 _MODULES = {
     "professional": professional,
+    "studio": studio,
+    "sidebar": sidebar,
     "classic": classic,
     "modern": modern,
     "minimal": minimal,
