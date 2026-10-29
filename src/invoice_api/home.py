@@ -34,6 +34,8 @@ _PAGE = """<!doctype html>
   .tpl {{ border:1px solid var(--line); border-radius:8px; padding:12px 14px; }}
   .tpl b {{ display:block; text-transform:capitalize; }}
   .tpl span {{ color:var(--muted); font-size:14px; }}
+  .tpl .preview {{ display:inline-block; margin-top:10px; font-size:13px; font-weight:600; padding:5px 12px; border-radius:6px; border:1px solid var(--accent); color:var(--accent); text-decoration:none; }}
+  .tpl .preview:hover {{ background:var(--accent); color:#fff; }}
   table {{ width:100%; border-collapse:collapse; font-size:15px; }}
   td {{ padding:8px 6px; border-top:1px solid var(--line); vertical-align:top; }}
   tr:first-child td {{ border-top:0; }}
@@ -79,6 +81,7 @@ _PAGE = """<!doctype html>
     <table>
       <tr><td><span class="m">GET</span><code>/health</code></td><td>Service status</td></tr>
       <tr><td><span class="m">GET</span><code>/templates</code></td><td>Available templates</td></tr>
+      <tr><td><span class="m">GET</span><code>/templates/{{name}}/preview</code></td><td>Sample invoice in that template, as a PDF</td></tr>
       <tr><td><span class="m">POST</span><code>/invoices</code></td><td>Multipart: <code>data</code> (JSON) and optional <code>logo</code> (PNG/JPEG, up to 2&nbsp;MB). Returns a PDF.</td></tr>
       <tr><td><span class="m">POST</span><code>/invoices/json</code></td><td>JSON body without a logo. Returns a PDF.</td></tr>
     </table>
@@ -101,7 +104,8 @@ _PAGE = """<!doctype html>
 
 def render_home(base_url: str) -> str:
     tpls = "".join(
-        f'<div class="tpl"><b>{escape(t["name"])}</b><span>{escape(t["description"])}</span></div>'
+        f'<div class="tpl"><b>{escape(t["name"])}</b><span>{escape(t["description"])}</span><br>'
+        f'<a class="preview" href="/templates/{escape(t["name"])}/preview" target="_blank" rel="noopener">Preview</a></div>'
         for t in INFO
     )
     return _PAGE.format(skill=SKILL_URL, templates=tpls, base=escape(base_url.rstrip("/")))

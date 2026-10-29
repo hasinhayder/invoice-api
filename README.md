@@ -22,6 +22,7 @@ Interactive docs: http://127.0.0.1:8120/docs
 |---|---|---|
 | GET | `/health` | liveness |
 | GET | `/templates` | list templates `[{name, description}]` |
+| GET | `/templates/{name}/preview` | sample invoice in that template, as a PDF |
 | POST | `/invoices` | multipart: `data` (JSON string, required) + `logo` (PNG/JPEG ≤ 2 MB, optional) → `application/pdf` |
 | POST | `/invoices/json` | JSON body, no logo → PDF |
 

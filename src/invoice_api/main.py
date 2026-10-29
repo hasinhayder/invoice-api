@@ -12,6 +12,7 @@ from .calc import compute
 from .home import render_home
 from .logo import LogoError, load_logo
 from .models import InvoiceRequest
+from .samples import sample_invoice
 from .templates import INFO, REGISTRY
 
 app = FastAPI(
@@ -52,6 +53,16 @@ def health():
 @app.get("/templates")
 def templates():
     return INFO
+
+
+@app.get("/templates/{name}/preview", response_class=Response, responses={200: {"content": {"application/pdf": {}}}})
+def template_preview(name: str):
+    if name not in REGISTRY:
+        raise HTTPException(404, detail=f"Unknown template: {name}")
+    inv = sample_invoice(name)
+    pdf = REGISTRY[name](inv, compute(inv), None)
+    return Response(pdf, media_type="application/pdf",
+                    headers={"Content-Disposition": f'inline; filename="sample-{name}.pdf"'})
 
 
 @app.post("/invoices", response_class=Response, responses={200: {"content": {"application/pdf": {}}}})

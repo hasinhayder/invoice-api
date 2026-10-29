@@ -81,3 +81,23 @@ def test_home_page():
     assert "invoice-generator-skill" in r.text
     for t in TEMPLATE_NAMES:
         assert t in r.text
+
+
+@pytest.mark.parametrize("tpl", TEMPLATE_NAMES)
+def test_template_preview(tpl):
+    r = client.get(f"/templates/{tpl}/preview")
+    assert r.status_code == 200
+    assert r.headers["content-type"] == "application/pdf"
+    assert r.headers["content-disposition"].startswith("inline;")
+    assert r.content.startswith(b"%PDF")
+
+
+def test_template_preview_unknown():
+    assert client.get("/templates/nope/preview").status_code == 404
+
+
+def test_homepage_lists_previews():
+    html = client.get("/").text
+    for tpl in TEMPLATE_NAMES:
+        assert f'href="/templates/{tpl}/preview"' in html
+    assert "/templates/{name}/preview" in html
